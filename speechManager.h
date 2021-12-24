@@ -9,6 +9,9 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include "Player.h"
+#include <map>
 
 using namespace std;
 
@@ -20,6 +23,13 @@ public:
     SpeechManager();    //构造
     ~SpeechManager();   //析构
     void showMenu();    //显示菜单功能
+    void initSpeech();  //初始化演讲比赛
+private:
+    vector<int> players; //所有参赛选手的id，下同
+    vector<int> round1Winners;   //第一轮晋级选手
+    vector<int> top3Winners; //最终的前三名
+    map<int, Player> idForPlayer;   //记录id与player对应关系的映射
+    int roundIndex; //比赛轮次
 };
 
 #endif

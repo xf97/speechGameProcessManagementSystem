@@ -3,12 +3,22 @@
 //speechManager实现文件
 //构造函数
 SpeechManager::SpeechManager(){
+    initSpeech();   //初始化
+}
 
+//初始化演讲比赛
+void SpeechManager::initSpeech(){
+    players.clear();    //清空
+    round1Winners.clear();  
+    top3Winners.clear();
+    idForPlayer.clear();
+    //置轮数
+    roundIndex = 1;
 }
 
 //析构函数
 SpeechManager::~SpeechManager(){
-
+    //无堆区数据，无需特殊处理
 }
 
 //显示菜单功能

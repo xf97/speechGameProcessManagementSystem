@@ -13,6 +13,7 @@ string Player::getName() const{
     return name;
 }
 
+//注意添加数组越界问题
 float Player::getScore(int round) const{
     try
     {
@@ -21,7 +22,7 @@ float Player::getScore(int round) const{
     catch(const std::exception& e)
     {
         //要防止越界
-        cout<<"The given round is smaller than 0 or bigger than 1.\n";
+        cerr<<"The given round is smaller than 0 or bigger than 1.\n";
         return 0.0f;
     }
 }

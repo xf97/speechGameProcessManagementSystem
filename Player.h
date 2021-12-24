@@ -3,6 +3,7 @@
 
 //选手定义类
 #include <iostream>
+#include <string>
 
 using namespace std;
 
