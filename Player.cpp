@@ -40,3 +40,9 @@ void Player::setScore(int round, float score){
     }
 
 }
+
+//友元函数
+ostream & operator<<(ostream & os, const Player & p){
+    os<<p.getName()<<", round 1 score: "<<p.getScore(0)<<", round 2 score: "<<p.getScore(1)<<endl;
+    return os;
+}

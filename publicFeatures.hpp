@@ -4,6 +4,8 @@
 //某些会用到的公共函数定义于此
 
 #include <iostream>
+#include <map>
+#include <iterator>
 
 using namespace std;
 
@@ -22,6 +24,22 @@ void cinNum(inputType & data, const string & tips){
             continue;
         }
         break;
+    }
+}
+
+//用于序列化数据
+template<typename seqType>
+void printSeq(const seqType & st){
+    for(auto it = st.begin(); it != st.end(); ++ it){
+        cout<<(*it)<<endl;
+    }
+}
+
+//用于输出各种类型的map
+template<typename keyType, typename valueType>
+void printMap(const map<keyType, valueType> & mp){
+    for(auto it = mp.begin(); it != mp.end(); ++ it){
+        cout<<it->first<<" "<<it->second;
     }
 }
 

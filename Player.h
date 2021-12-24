@@ -16,6 +16,8 @@ public:
     float getScore(int round) const;
     //set方法
     void setScore(int round, float score); 
+    //重载打印函数
+    friend ostream & operator<<(ostream & os, const Player & p);
 private:
     string name;    //姓名
     float scores[2];    //两轮得分

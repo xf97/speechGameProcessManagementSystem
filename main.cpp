@@ -48,6 +48,7 @@ int main(){
         system("pause");
         system("cls");
     }
+    printMap(sm.getInfoMap());
     cout<<"Already quit this system.\n";
     return 0;
 }

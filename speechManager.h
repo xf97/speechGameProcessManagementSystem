@@ -15,6 +15,8 @@
 
 using namespace std;
 
+const int PLAYERS_NUM = 12; //参赛选手数量
+
 //抽签，开始演讲比赛，显示结果
 //抽签，开始眼睛比赛，显示前三名结果，保存分数
 //类名统一大写字母开头
@@ -24,6 +26,9 @@ public:
     ~SpeechManager();   //析构
     void showMenu();    //显示菜单功能
     void initSpeech();  //初始化演讲比赛
+    void creatPlayers();    //初始化创建PLAYERS_NUM名选手
+    const vector<int> & getPlayers() const;
+    const map<int, Player> & getInfoMap() const; 
 private:
     vector<int> players; //所有参赛选手的id，下同
     vector<int> round1Winners;   //第一轮晋级选手
