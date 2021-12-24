@@ -4,6 +4,8 @@
 //头文件包含文件
 
 #include <iostream>
+#include "speechManager.h"
+#include "publicFeatures.hpp"   //包含模板函数
 
 using namespace std;
 
