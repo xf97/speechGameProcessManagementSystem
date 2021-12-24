@@ -12,15 +12,14 @@
 
 using namespace std;
 
+//抽签，开始演讲比赛，显示结果
+//抽签，开始眼睛比赛，显示前三名结果，保存分数
 //类名统一大写字母开头
 class SpeechManager{
 public:
     SpeechManager();    //构造
     ~SpeechManager();   //析构
     void showMenu();    //显示菜单功能
-private:
-    string id;  //选手id
-    float score;    //选手分数
 };
 
 #endif

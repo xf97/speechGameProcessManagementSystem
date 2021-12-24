@@ -6,6 +6,8 @@
 #include <iostream>
 #include "speechManager.h"
 #include "publicFeatures.hpp"   //包含模板函数
+#include "Player.h"
+
 
 using namespace std;
 

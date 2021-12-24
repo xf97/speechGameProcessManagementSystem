@@ -18,7 +18,7 @@ void cinNum(inputType & data, const string & tips){
             //则清空状态，重输
             cin.clear();
             cin.sync();
-            cout<<"Wrong type input, please re-enter your choice: ";
+            cout<<"Wrong type input, please re-enter your input: ";
             continue;
         }
         break;
