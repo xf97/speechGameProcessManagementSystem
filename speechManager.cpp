@@ -6,6 +6,7 @@ SpeechManager::SpeechManager(){
     initSpeech();   //初始化
     creatPlayers(); //初始化选手
     srand((unsigned int)time(NULL));    //为后续随机操作初始化随机种子
+    loadData();
 }
 
 //初始化演讲比赛
@@ -70,7 +71,7 @@ void SpeechManager::speechDraw(vector<int> & _players, int _round){
 
 
 void SpeechManager::speechContest(const vector<int> & _players, int _round){
-    cout<<"The #"<<_round<<" round game starts\n";
+    cout<<"*** The #"<<_round<<" round game starts ***\n";
     //要记住每组六个人，取前三个
     int num = 0;    //已经比赛的人数，用于分组
     //因为要把得分前几位的选手调出来，所以要建立score和id的对应关系，故用multimap，分数可能相同
@@ -117,6 +118,7 @@ void SpeechManager::speechContest(const vector<int> & _players, int _round){
             _1GroupScores.clear();  //每组弄好之后清空
         }
     }
+    cout<<"*** The #"<<_round<<" round game ends ***\n";
 }
 
 void SpeechManager::startSpeech(){
@@ -141,6 +143,10 @@ void SpeechManager::startSpeech(){
     //显示最终结果
     showScore(roundIndex);
     //保存分数
+    saveData();
+
+    cout<<"This speech game is finished.\n";
+    return;
 }
 
 void SpeechManager::showScore(int _round){
@@ -157,5 +163,84 @@ void SpeechManager::showScore(int _round){
             cout<<"id: "<<(*it)<<", name: "<<idForPlayer[(*it)].getName()<<", score: "<<
                 idForPlayer[(*it)].getScore(_round)<<endl;
         }
+    }
+    //假装打印个菜单
+    //showMenu();
+}
+
+void SpeechManager::saveData(){
+    ofstream ofs(DATA_PATH, ios::out | ios::app);   //追加写入，不清空之前的数据
+    if(!ofs.is_open()){
+        cerr<<"Data file open failed, please check!\n";
+        ofs.close();
+        return;
+    }
+    //将id和分数搞进去
+    //csv的数据使用逗号分割
+    for(auto it = top3Winners.begin(); it != top3Winners.end(); ++ it){
+        //id 姓名 得分
+        ofs<<(*it)<<","<<idForPlayer[(*it)].getName()<<","<<idForPlayer[(*it)].getScore(2)<<",";
+    }
+    ofs<<endl;
+    ofs.close();
+    cout<<"Data has saved!.\n";
+    return;
+}
+
+void SpeechManager::loadData(){
+    ifstream ifs(DATA_PATH, ios::in);
+
+    if(!ifs.is_open()){
+        cerr<<"Past data file doesn't exist.\n";
+        ifs.close();
+        return;
+    }
+    else{
+        //要看是否是空文件，因为会有清空操作
+        char ch;
+        ifs>>ch;    //读一个进来试一下
+        if(ifs.eof()){
+            cerr<<"Data file is empty, no past data is recorded!\n";
+            ifs.close();
+            return;
+        }
+        else{
+            //ifs.seekg(0, ios::beg); //返回首位置
+            ifs.putback(ch);  //把读入的字符放回去
+            //文件不为空
+            string aLine = "";
+            int index = 1;  //届数
+            while(getline(ifs, aLine)){
+                //每次读一届的
+                //要分隔逗号，利用find和substr
+                //cout<<aLine<<endl;
+                int start = 0;  //开始检索位置
+                int pos = -1;   //逗号位置
+                vector<string> aLineContent;    //一行初始化一次
+                do{
+                    pos = aLine.find(',', start);
+                    aLineContent.emplace_back(aLine.substr(start, pos - start));
+                    start = pos + 1;    //更新搜索起始位置
+                }while(start < aLine.size() - 1 && pos >= 0 && pos < aLine.size());
+                //在有逗号且没有超限的时候循环
+                // for(string i : aLineContent){
+                //     cout<<i<<" &&& ";
+                // }
+                // cout<<endl;
+                pastData.insert(make_pair(index, aLineContent));
+                ++ index;
+            }
+            ifs.close();
+            return;
+        }
+    }
+}
+
+//查看过往记录
+void SpeechManager::checkPastData() const{
+    for(auto it = pastData.begin(); it != pastData.end(); ++ it){
+        cout<<"The #"<<it->first<<" speech game, 1st id: "<<it->second[0]<<", name: "<<it->second[1]<<", score: "<<it->second[2]<<",\n"
+            <<"2nd id: "<<it->second[3]<<", name: "<<it->second[4]<<", score: "<<it->second[5]<<",\n"
+            <<"3rd id: "<<it->second[6]<<", name: "<<it->second[7]<<", score: "<<it->second[8]<<".\n";
     }
 }
