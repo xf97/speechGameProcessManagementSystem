@@ -23,6 +23,7 @@
 int main(){
     int choice = -1;    //用户选择
     SpeechManager sm;
+    //printMap(sm.getInfoMap());
     while(choice != 0){
         sm.showMenu();
         cinNum(choice, "Please enter your choice: ");
@@ -34,6 +35,7 @@ int main(){
             break;
         case 1:
             //开始比赛
+            sm.startSpeech();
             break;
         case 2:
             //查看过往记录
@@ -48,7 +50,6 @@ int main(){
         system("pause");
         system("cls");
     }
-    printMap(sm.getInfoMap());
     cout<<"Already quit this system.\n";
     return 0;
 }

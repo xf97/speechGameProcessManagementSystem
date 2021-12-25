@@ -3,6 +3,11 @@
 //实现player类
 
 //构造
+Player::Player(){
+    name = "";
+    scores[0] = scores[1] = 0.0f;
+}
+
 Player::Player(const string _name): name(_name){
     scores[0] = 0.0f;
     scores[1] = 0.0f;   
@@ -17,7 +22,7 @@ string Player::getName() const{
 float Player::getScore(int round) const{
     try
     {
-        return scores[round];
+        return scores[round - 1];
     }
     catch(const std::exception& e)
     {
@@ -31,7 +36,7 @@ float Player::getScore(int round) const{
 void Player::setScore(int round, float score){
     try
     {
-        scores[round] = score;
+        scores[round - 1] = score;
     }
     catch(const std::exception& e)
     {

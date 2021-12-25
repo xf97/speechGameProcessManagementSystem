@@ -11,6 +11,7 @@ class Player{
 public:
     //构造方法
     Player(const string _name);
+    Player();
     //get方法
     string getName() const;
     float getScore(int round) const;
