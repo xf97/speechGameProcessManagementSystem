@@ -17,6 +17,8 @@ void SpeechManager::initSpeech(){
     idForPlayer.clear();
     //置轮数
     roundIndex = 1;
+    //过往记录清空
+    pastData.clear();
 }
 
 //调试代码
@@ -55,9 +57,9 @@ void SpeechManager::showMenu(){
     cout<<"*********************************\n";
     cout<<"Welcome to Xiaofeng's Speech Game\n";
     cout<<"1. Start the speech game.\n";
-    cout<<"2. Get the past game's winners.\n";
+    cout<<"2. Check the past game's winners.\n";
     cout<<"3. Clear all past game's data.\n";
-    cout<<"4. Quit this program.\n";
+    cout<<"0. Quit this program.\n";
     cout<<"*********************************\n";
 }
 
@@ -144,8 +146,12 @@ void SpeechManager::startSpeech(){
     showScore(roundIndex);
     //保存分数
     saveData();
-
     cout<<"This speech game is finished.\n";
+    //要重置比赛，实现记录的实时更新
+    initSpeech();
+    creatPlayers(); 
+    loadData();
+    //roundIndex = 1;
     return;
 }
 
@@ -179,9 +185,10 @@ void SpeechManager::saveData(){
     //csv的数据使用逗号分割
     for(auto it = top3Winners.begin(); it != top3Winners.end(); ++ it){
         //id 姓名 得分
+        //追加的时候这一届会跟上一届的掺和在一起
         ofs<<(*it)<<","<<idForPlayer[(*it)].getName()<<","<<idForPlayer[(*it)].getScore(2)<<",";
     }
-    ofs<<endl;
+    ofs<<"\n";
     ofs.close();
     cout<<"Data has saved!.\n";
     return;
@@ -238,9 +245,34 @@ void SpeechManager::loadData(){
 
 //查看过往记录
 void SpeechManager::checkPastData() const{
+    if(pastData.empty()){
+        cout<<"The past data file is empty, no records can output.\n";
+        return;
+    }
     for(auto it = pastData.begin(); it != pastData.end(); ++ it){
         cout<<"The #"<<it->first<<" speech game, 1st id: "<<it->second[0]<<", name: "<<it->second[1]<<", score: "<<it->second[2]<<",\n"
             <<"2nd id: "<<it->second[3]<<", name: "<<it->second[4]<<", score: "<<it->second[5]<<",\n"
             <<"3rd id: "<<it->second[6]<<", name: "<<it->second[7]<<", score: "<<it->second[8]<<".\n";
+    }
+}
+
+void SpeechManager::clearData(){
+    //清空数据需要再次确认
+    int reType = 2; //再次确认操作
+    do{
+        cinNum(reType, "Be sure to clean all data (1-yes, 2-no): ");
+    } while(reType != 1 && reType != 2);
+    if(reType == 1){
+        ofstream ofs(DATA_PATH, ios::trunc);    //使用trunc清空数据
+        ofs.close();
+        //重置值，更新记录
+        initSpeech();
+        creatPlayers();
+        loadData(); 
+        cout<<"Clean all data -- Done!\n";
+        return;
+    }
+    else{
+        return;
     }
 }

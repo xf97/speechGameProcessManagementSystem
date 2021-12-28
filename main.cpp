@@ -39,9 +39,11 @@ int main(){
             break;
         case 2:
             //查看过往记录
+            sm.checkPastData();
             break;
         case 3:
             //清空记录
+            sm.clearData();
             break;
         default:
             cout<<"you have entered the wrong number, please enter again.\n";

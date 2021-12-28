@@ -17,11 +17,13 @@
 #include <ctime>
 #include "publicFeatures.hpp"
 #include <deque>
+#include <fstream>
 
 using namespace std;
 
 const int PLAYERS_NUM = 12; //参赛选手数量
 const int ONE_GROUP_SIZE = 6;   //一组人的数量
+const string DATA_PATH = ".\\storageData\\speech.csv";  //数据保存位置
 
 //抽签，开始演讲比赛，显示结果
 //抽签，开始眼睛比赛，显示前三名结果，保存分数
@@ -37,6 +39,9 @@ public:
     const map<int, Player> & getInfoMap() const; 
     void startSpeech(); //开始比赛
     void showScore(int _round);
+    void saveData();
+    void checkPastData() const;
+    void clearData();
 private:
     vector<int> players; //所有参赛选手的id，下同
     vector<int> round1Winners;   //第一轮晋级选手
@@ -45,6 +50,9 @@ private:
     int roundIndex; //比赛轮次
     void speechDraw(vector<int> & _players, int _round);    //抽签函数
     void speechContest(const vector<int> & _players, int _round);     //比赛函数
+    bool pastDataEmpty;
+    map<int, vector<string>> pastData;  //保存往届信息
+    void loadData();    //读取往届记录
 };
 
 #endif
